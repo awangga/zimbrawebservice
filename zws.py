@@ -17,8 +17,6 @@ class Zws():
 	    self.imap = imaplib.IMAP4_SSL('imap.pon-peparnas2016jabar.go.id',993)
 	    r, d = self.imap.login(username, password)
 	    assert r == 'OK', 'login failed'
-	    print " > Sign as ",d
-	    print " > Sign In ..."
 	
 	def sendEmailMIME(self,recipient,subject,message):
 		msg = email.mime.multipart.MIMEMultipart()
@@ -46,7 +44,7 @@ class Zws():
 		self.smtp.starttls()
 		self.smtp.login(self.username, self.password)
 		self.smtp.sendmail(self.username, recipient, content)
-		print "   email replied"
+		print "{ \'status\' : \'OK\' }"
 			
 	def list(self):
 		#self.login()
