@@ -21,6 +21,6 @@ subj = form["subj"].value
 
 mail = zws.Zws()
 mail.login('no-reply','asepdinamo')
-mail.sendEmail(rcpt,msg,subj)
+mail.sendEmail(rcpt,subj,msg)
 
 
