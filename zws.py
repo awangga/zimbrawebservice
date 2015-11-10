@@ -4,7 +4,7 @@ import smtplib
 import datetime
 import email.mime.multipart
 
-class Outlook():
+class Zws():
 	def __init__(self):
 		mydate = datetime.datetime.now()-datetime.timedelta(1)
 		self.today = mydate.strftime("%d-%b-%Y")
@@ -14,17 +14,11 @@ class Outlook():
 	def login(self,username,password):
 	    self.username = username
 	    self.password = password
-	    while True:
-			try:
-				self.imap = imaplib.IMAP4_SSL('imap-mail.outlook.com')
-				r, d = self.imap.login(username, password)
-				assert r == 'OK', 'login failed'
-				print " > Sign as ",d
-			except:
-				print " > Sign In ..."
-				continue
-			#self.imap.logout()
-			break
+	    self.imap = imaplib.IMAP4_SSL('imap.pon-peparnas2016jabar.go.id',993)
+	    r, d = self.imap.login(username, password)
+	    assert r == 'OK', 'login failed'
+	    print " > Sign as ",d
+	    print " > Sign In ..."
 	
 	def sendEmailMIME(self,recipient,subject,message):
 		msg = email.mime.multipart.MIMEMultipart()
@@ -35,7 +29,7 @@ class Outlook():
 		#headers = "\r\n".join(["from: " + "sms@kitaklik.com","subject: " + subject,"to: " + recipient,"mime-version: 1.0","content-type: text/html"])
 		#content = headers + "\r\n\r\n" + message
 		try:
-			self.smtp = smtplib.SMTP('smtp-mail.outlook.com',587)
+			self.smtp = smtplib.SMTP('smtp.pon-peparnas2016jabar.go.id',587)
 			self.smtp.ehlo()
 			self.smtp.starttls()
 			self.smtp.login(self.username, self.password)
@@ -47,19 +41,13 @@ class Outlook():
 	def sendEmail(self,recipient,subject,message):
 		headers = "\r\n".join(["from: " + self.username,"subject: " + subject,"to: " + recipient,"mime-version: 1.0","content-type: text/html"])
 		content = headers + "\r\n\r\n" + message
-		while True:
-			try:
-				self.smtp = smtplib.SMTP('smtp-mail.outlook.com',587)
-				self.smtp.ehlo()
-				self.smtp.starttls()
-				self.smtp.login(self.username, self.password)
-				self.smtp.sendmail(self.username, recipient, content)
-				print "   email replied"
-			except:
-				print "   Sending email..."
-				continue
-			break
-				
+		self.smtp = smtplib.SMTP('smtp.pon-peparnas2016jabar.go.id',587)
+		self.smtp.ehlo()
+		self.smtp.starttls()
+		self.smtp.login(self.username, self.password)
+		self.smtp.sendmail(self.username, recipient, content)
+		print "   email replied"
+			
 	def list(self):
 		#self.login()
 		return self.imap.list()
